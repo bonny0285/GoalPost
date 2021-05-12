@@ -13,11 +13,16 @@ let appDelegate = UIApplication.shared.delegate as? AppDelegate
 
 class GoalsVC: UIViewController {
     
+    //MARK: - Outlets
     
     @IBOutlet weak var tableView: UITableView!
+    
+    //MARK: - Properties
+    
     var goals: [Goal] = []
     
-
+    //MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -28,31 +33,39 @@ class GoalsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchCoreDataObject()
-        tableView.reloadData()
     }
+    
+    //MARK: - Methods
 
-    func fetchCoreDataObject(){
-        self.fetch { (complete) in
-            if complete {
-                if goals.count >= 1 {
-                    tableView.isHidden = false
-                    
-                } else {
-                    tableView.isHidden = true
-                }
+    private func fetchCoreDataObject() {
+        fetch { isCompleted in
+            
+            switch isCompleted {
+            case true:
+                
+                tableView.isHidden = goals.count >= 1 ? false : true
+                tableView.reloadData()
+                
+            case false:
+                print("Not completed fetch")
+                break
             }
         }
     }
     
+    //MARK: - Actions
+
     @IBAction func addGoalButtonWasPressed(_ sender: Any) {
-        
         guard let createGoalVC = storyboard?.instantiateViewController(withIdentifier: "CreateGoalVC") else {return}
-        presentDetail(createGoalVC)
+        navigationController?.pushViewController(createGoalVC, animated: true)
+        //presentDetail(createGoalVC)
     }
     
 }
 
-extension GoalsVC: UITableViewDelegate, UITableViewDataSource{
+//MARK: - UITableViewDelegate, UITableViewDataSource
+
+extension GoalsVC: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -63,9 +76,14 @@ extension GoalsVC: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "goalCell") as? GoalCell else {return UITableViewCell()}
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "goalCell") as? GoalCell else {
+            return UITableViewCell()
+        }
+        
         let goal = goals[indexPath.row]
-        cell.congigureCell(goal: goal)
+        cell.congigureCellWith(goal)
+        
         return cell
     }
     
@@ -78,17 +96,21 @@ extension GoalsVC: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let deleteAction = UITableViewRowAction(style: .destructive, title: "DELETE") { (rowAction, indexPath) in
+        
+        let deleteAction = UITableViewRowAction(style: .destructive, title: "DELETE") { rowAction, indexPath in
             self.removeGoal(atIndexPath: indexPath)
             self.fetchCoreDataObject()
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
-        let addAction = UITableViewRowAction(style: .normal, title: "ADD 1") { (rowAction, indexPath) in
+        
+        let addAction = UITableViewRowAction(style: .normal, title: "ADD 1") { rowAction, indexPath in
             self.setProgress(atIndexPath: indexPath)
             tableView.reloadRows(at: [indexPath], with: .automatic)
         }
+        
         deleteAction.backgroundColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
         addAction.backgroundColor = #colorLiteral(red: 1, green: 0.8323456645, blue: 0.4732058644, alpha: 1)
+        
         return [deleteAction, addAction]
     }
 }
@@ -96,16 +118,14 @@ extension GoalsVC: UITableViewDelegate, UITableViewDataSource{
 
 extension GoalsVC{
     
-    func setProgress(atIndexPath indexPath: IndexPath){
-        guard let managedContex = appDelegate?.persistentContainer.viewContext else {return}
+    func setProgress(atIndexPath indexPath: IndexPath) {
+        guard let managedContex = appDelegate?.persistentContainer.viewContext else { return }
         
         let chosenGoal = goals[indexPath.row]
         
-        if chosenGoal.goalProgress < chosenGoal.goalCompletionValue {
-            chosenGoal.goalProgress = chosenGoal.goalProgress + 1
-        } else {
-            return
-        }
+        guard chosenGoal.goalProgress < chosenGoal.goalCompletionValue else { return }
+        
+        chosenGoal.goalProgress = chosenGoal.goalProgress + 1
         
         do {
             try managedContex.save()
@@ -115,8 +135,9 @@ extension GoalsVC{
         }
     }
     
-    func removeGoal(atIndexPath indexPath: IndexPath){
-        guard let manageContext = appDelegate?.persistentContainer.viewContext else {return}
+    func removeGoal(atIndexPath indexPath: IndexPath) {
+        guard let manageContext = appDelegate?.persistentContainer.viewContext else { return }
+        
         manageContext.delete(goals[indexPath.row])
         
         do {
@@ -128,8 +149,9 @@ extension GoalsVC{
     }
     
     
-    func fetch(completion: (_ complete: Bool) -> ()){
-        guard let managedContex = appDelegate?.persistentContainer.viewContext else {return}
+    func fetch(completion: (_ complete: Bool) -> ()) {
+        guard let managedContex = appDelegate?.persistentContainer.viewContext else { return }
+        
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Goal")
         
         do {
@@ -140,6 +162,5 @@ extension GoalsVC{
             debugPrint("Could not fetch: \(error.localizedDescription)")
             completion(false)
         }
-        
     }
 }

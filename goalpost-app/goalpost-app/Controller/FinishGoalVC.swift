@@ -11,41 +11,34 @@ import CoreData
 
 class FinishGoalVC: UIViewController, UITextFieldDelegate {
     
+    //MARK: - Outlets
+    
     @IBOutlet weak var createGoalBtn: UIButton!
     @IBOutlet weak var pointTxtField: UITextField!
+    
+    //MARK: - Properties
     
     var goalDescription: String!
     var goalType: GoalType!
     
-    func initData(description: String, type: GoalType){
-        self.goalDescription = description
-        self.goalType = type
-    }
+    //MARK: - Lifecycle
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         createGoalBtn.bindToKeyboard()
         pointTxtField.delegate = self
     }
-
-    @IBAction func createGoalBtnWasPressed(_ sender: Any) {
-        // Pass data into Core Data Goal Model
-        if pointTxtField != nil {
-        self.save { (complete) in
-            if complete {
-                dismiss(animated: true, completion: nil)
-            }
-        }
-        }
+    
+    //MARK: - Methods
+    
+    func initData(description: String, type: GoalType) {
+        self.goalDescription = description
+        self.goalType = type
     }
     
-    @IBAction func backBtnWasPressed(_ sender: Any) {
-        dismissDetail()
-    }
-    
-    func save(completion: (_ finished: Bool) -> ()){
-        guard let managedContext = appDelegate?.persistentContainer.viewContext else {return}
+    private func save(completion: (_ finished: Bool) -> ()) {
+        guard let managedContext = appDelegate?.persistentContainer.viewContext else { return }
+        
         let goal = Goal(context: managedContext)
         
         goal.goalDescription = goalDescription
@@ -54,12 +47,33 @@ class FinishGoalVC: UIViewController, UITextFieldDelegate {
         goal.goalProgress = Int32(0)
         
         do {
-        try managedContext.save()
+            try managedContext.save()
             print("Successed fully saved data!")
             completion(true)
+            
         } catch {
             debugPrint("Could not save: \(error.localizedDescription)")
             completion(false)
         }
+    }
+    
+    
+    //MARK: - Actions
+    
+    @IBAction func createGoalBtnWasPressed(_ sender: Any) {
+        // Pass data into Core Data Goal Model
+        
+        guard pointTxtField.text != nil else { return }
+        
+        save { isComplete in
+            if isComplete {
+                dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+    
+    @IBAction func backBtnWasPressed(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
+        //dismissDetail()
     }
 }

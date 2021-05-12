@@ -8,9 +8,9 @@
 
 import UIKit
 
-extension UIViewController{
+extension UIViewController {
     
-    func presentDetail(_ viewControllerToPresent: UIViewController){
+    func presentDetail(_ viewControllerToPresent: UIViewController) {
         let transition = CATransition()
         transition.duration = 0.3
         transition.type = CATransitionType.push
@@ -20,7 +20,7 @@ extension UIViewController{
         present(viewControllerToPresent, animated: false, completion: nil)
     }
     
-    func presentSecondaryDetail(_ viewControllerToPresent: UIViewController){
+    func presentSecondaryDetail(_ viewControllerToPresent: UIViewController) {
         let transition = CATransition()
         transition.duration = 0.3
         transition.type = CATransitionType.push
@@ -33,7 +33,7 @@ extension UIViewController{
         }
     }
     
-    func dismissDetail(){
+    func dismissDetail() {
         let transition = CATransition()
         transition.duration = 0.3
         transition.type = CATransitionType.push

@@ -8,13 +8,18 @@
 
 import UIKit
 
-extension UIView{
+extension UIView {
     
-    func bindToKeyboard(){
-        NotificationCenter.default.addObserver(self, selector: #selector(UIKeyboardWillChange(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    func bindToKeyboard() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(UIKeyboardWillChange(_:)),
+            name: UIResponder.keyboardWillChangeFrameNotification,
+            object: nil
+        )
     }
     
-    @objc func UIKeyboardWillChange(_ notification: NSNotification){
+    @objc func UIKeyboardWillChange(_ notification: NSNotification) {
         let duration = notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
         let curve = notification.userInfo![UIResponder.keyboardAnimationCurveUserInfoKey] as! UInt
         let startingFrame = (notification.userInfo![UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
