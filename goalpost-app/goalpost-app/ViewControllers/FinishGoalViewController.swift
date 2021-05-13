@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class FinishGoalVC: UIViewController, UITextFieldDelegate {
+class FinishGoalViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: - Outlets
     
@@ -20,21 +20,30 @@ class FinishGoalVC: UIViewController, UITextFieldDelegate {
     
     var goalDescription: String!
     var goalType: GoalType!
+    var viewModel = FinishGoalViewModel()
     
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        createGoalBtn.bindToKeyboard()
         pointTxtField.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        createGoalBtn.bindToKeyboard()
+        goalDescription = Manager.shared.goalData?.description
+        goalType = Manager.shared.goalData?.goalType
+        print("Description: \(goalDescription)")
+        print("Goal type: \(goalType)")
     }
     
     //MARK: - Methods
     
-    func initData(description: String, type: GoalType) {
-        self.goalDescription = description
-        self.goalType = type
-    }
+//    func initData(description: String, type: GoalType) {
+//        self.goalDescription = description
+//        self.goalType = type
+//    }
     
     private func save(completion: (_ finished: Bool) -> ()) {
         guard let managedContext = appDelegate?.persistentContainer.viewContext else { return }
@@ -67,7 +76,8 @@ class FinishGoalVC: UIViewController, UITextFieldDelegate {
         
         save { isComplete in
             if isComplete {
-                dismiss(animated: true, completion: nil)
+                viewModel.createGoalWasPressed(navigationController)
+                //dismiss(animated: true, completion: nil)
             }
         }
     }

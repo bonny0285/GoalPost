@@ -8,10 +8,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--GoalsVC-->
+        <!--Goals View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="GoalVC" id="BYZ-38-t0r" customClass="GoalsVC" customModule="goalpost_app" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GoalsViewController" id="BYZ-38-t0r" customClass="GoalsViewController" customModule="goalpost_app" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -197,10 +197,10 @@
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="101.78571428571428"/>
         </scene>
-        <!--Create GoalVC-->
+        <!--Create Goal View Controller-->
         <scene sceneID="iv4-pa-Men">
             <objects>
-                <viewController storyboardIdentifier="CreateGoalVC" id="kTq-MR-lc0" customClass="CreateGoalVC" customModule="goalpost_app" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CreateGoalViewController" id="kTq-MR-lc0" customClass="CreateGoalViewController" customModule="goalpost_app" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9FF-il-dKg">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -247,7 +247,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LTp-iH-XjA">
-                                <rect key="frame" x="0.0" y="826" width="414" height="70"/>
+                                <rect key="frame" x="0.0" y="792" width="414" height="70"/>
                                 <color key="backgroundColor" red="0.91764705882352937" green="0.66274509803921566" blue="0.26666666666666666" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="bLj-Ue-5Ei"/>
@@ -327,7 +327,7 @@
                             <constraint firstItem="c29-eC-FLP" firstAttribute="top" secondItem="dPe-Hl-CEW" secondAttribute="top" id="0LY-a9-nUJ"/>
                             <constraint firstItem="AV8-5y-ZAZ" firstAttribute="top" secondItem="c29-eC-FLP" secondAttribute="bottom" constant="20" id="3py-KN-juT"/>
                             <constraint firstItem="dPe-Hl-CEW" firstAttribute="trailing" secondItem="AV8-5y-ZAZ" secondAttribute="trailing" constant="20" id="5CW-x8-WIo"/>
-                            <constraint firstAttribute="bottom" secondItem="LTp-iH-XjA" secondAttribute="bottom" id="7qd-ZK-h53"/>
+                            <constraint firstItem="dPe-Hl-CEW" firstAttribute="bottom" secondItem="LTp-iH-XjA" secondAttribute="bottom" id="7qd-ZK-h53"/>
                             <constraint firstItem="c29-eC-FLP" firstAttribute="trailing" secondItem="dPe-Hl-CEW" secondAttribute="trailing" id="ckU-C2-lyv"/>
                             <constraint firstItem="LTp-iH-XjA" firstAttribute="leading" secondItem="dPe-Hl-CEW" secondAttribute="leading" id="e6t-2c-X2I"/>
                             <constraint firstItem="AV8-5y-ZAZ" firstAttribute="leading" secondItem="dPe-Hl-CEW" secondAttribute="leading" constant="20" id="hJm-mG-Il3"/>
@@ -346,10 +346,10 @@
             </objects>
             <point key="canvasLocation" x="1963.7681159420292" y="101.78571428571428"/>
         </scene>
-        <!--Finish GoalVC-->
+        <!--Finish Goal View Controller-->
         <scene sceneID="hyp-yw-WIl">
             <objects>
-                <viewController storyboardIdentifier="FinishGoalVC" id="dms-VR-a7q" customClass="FinishGoalVC" customModule="goalpost_app" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FinishGoalViewController" id="dms-VR-a7q" customClass="FinishGoalViewController" customModule="goalpost_app" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="AVt-Wf-AqN">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -422,7 +422,7 @@
                                 <rect key="frame" x="0.0" y="252" width="414" height="644"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ov6-P4-Hf7">
-                                        <rect key="frame" x="0.0" y="574" width="414" height="70"/>
+                                        <rect key="frame" x="0.0" y="532" width="414" height="70"/>
                                         <color key="backgroundColor" red="0.91764705879999997" green="0.66274509800000003" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="6fl-4U-STN"/>
@@ -440,7 +440,7 @@
                                 <constraints>
                                     <constraint firstItem="ov6-P4-Hf7" firstAttribute="leading" secondItem="ZDb-ND-JG4" secondAttribute="leading" id="5jX-Ow-c8n"/>
                                     <constraint firstAttribute="trailing" secondItem="ov6-P4-Hf7" secondAttribute="trailing" id="d60-MQ-5PT"/>
-                                    <constraint firstAttribute="bottom" secondItem="ov6-P4-Hf7" secondAttribute="bottom" id="xEv-6e-791"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="ov6-P4-Hf7" secondAttribute="bottom" id="eF6-lp-43a"/>
                                 </constraints>
                             </view>
                         </subviews>

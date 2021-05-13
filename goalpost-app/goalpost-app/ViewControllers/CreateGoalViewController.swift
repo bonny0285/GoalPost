@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class CreateGoalVC: UIViewController {
+class CreateGoalViewController: UIViewController {
 
     //MARK: - Outlets
 
@@ -21,16 +21,22 @@ class CreateGoalVC: UIViewController {
     //MARK: - Properties
 
     var goalType: GoalType = .shortTerm
+    var viewModel = CreateGoalViewModel()
     
     //MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        goalTextView.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         nextBtn.bindToKeyboard()
         shortTermBtn.setSelectedColor()
         longTermBtn.setDeselectedColor()
-        goalTextView.delegate = self
     }
+    
     
     //MARK: - Actions
 
@@ -42,9 +48,17 @@ class CreateGoalVC: UIViewController {
     
     @IBAction func nextButtonWasPressed(_ sender: Any) {
         if goalTextView.text != "" && goalTextView.text != "What is your goal ?" {
-            guard let finishGoalVC = storyboard?.instantiateViewController(withIdentifier: "FinishGoalVC") as? FinishGoalVC else {return}
-            finishGoalVC.initData(description: goalTextView.text!, type: goalType)
-            presentingViewController?.presentSecondaryDetail(finishGoalVC)
+//            guard let finishGoalVC = storyboard?.instantiateViewController(withIdentifier: "FinishGoalViewController") as? FinishGoalViewController else {return}
+            
+            Manager.shared.goalData = GoalData(
+                description: goalTextView.text!,
+                goalType: goalType
+            )
+            
+            navigationController?.pushViewController(viewModel.nextButtonWasPressed(), animated: true)
+            
+//            finishGoalVC.initData(description: goalTextView.text!, type: goalType)
+//            presentingViewController?.presentSecondaryDetail(finishGoalVC)
         }
     }
     
@@ -64,7 +78,7 @@ class CreateGoalVC: UIViewController {
 
 //MARK: - UITextViewDelegate
 
-extension CreateGoalVC: UITextViewDelegate {
+extension CreateGoalViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         goalTextView.text = ""
         goalTextView.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
